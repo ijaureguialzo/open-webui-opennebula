@@ -1,0 +1,21 @@
+- name: Clonar el repositorio
+  ansible.builtin.git:
+    repo: https://github.com/ijaureguialzo/traefik-docker.git
+    dest: "{{ ruta_instalacion }}/{{ role_name }}"
+    clone: yes
+    depth: 1
+    update: yes
+    force: yes
+
+- name: Construir los contenedores Docker
+  ansible.builtin.shell: |
+    docker compose -f docker-compose.yml -f docker-compose.restart.yml pull
+    docker compose -f docker-compose.yml -f docker-compose.restart.yml build --pull
+  args:
+    chdir: "{{ ruta_instalacion }}/{{ role_name }}"
+
+- name: Lanzar el contenedor de Traefik
+  ansible.builtin.shell: |
+    docker compose -f docker-compose.yml -f docker-compose.restart.yml up -d traefik
+  args:
+    chdir: "{{ ruta_instalacion }}/{{ role_name }}"
