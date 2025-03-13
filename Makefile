@@ -13,6 +13,7 @@ help: _header
 	@echo ---------------------------------------------
 	@echo build
 	@echo init / plan / apply / show / output / destroy
+	@echo taint resource=[resource_name]
 	@echo workspace
 	@echo ssh / ssh-root
 	@echo clean
@@ -46,6 +47,11 @@ output:
 
 destroy:
 	@docker compose run --rm terraform-ansible time -f "Tiempo total: %E" terraform -chdir=/terraform destroy -auto-approve
+
+resource?="resource_name"
+
+taint:
+	@docker compose run --rm terraform-ansible terraform -chdir=/terraform taint $(resource)
 
 workspace:
 	@docker compose run --rm terraform-ansible /bin/sh
