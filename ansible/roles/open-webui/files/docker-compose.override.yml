@@ -1,0 +1,4 @@
+services:
+  open-webui:
+    labels:
+      - "traefik.http.routers.open-webui.tls.certresolver=letsencrypt"

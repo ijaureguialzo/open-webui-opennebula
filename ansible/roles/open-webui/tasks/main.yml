@@ -1,0 +1,25 @@
+- name: Clonar el repositorio
+  ansible.builtin.git:
+    repo: https://github.com/ijaureguialzo/open-webui-docker.git
+    dest: "{{ ruta_instalacion }}/{{ role_name }}"
+    clone: yes
+    depth: 1
+    update: yes
+    force: yes
+
+- name: Copiar los ficheros de configuración
+  ansible.builtin.copy:
+    src: files/
+    dest: "{{ ruta_instalacion }}/{{ role_name }}"
+
+- name: Actualizar las imágenes de Docker
+  ansible.builtin.shell: |
+    docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.traefik.yml pull
+  args:
+    chdir: "{{ ruta_instalacion }}/{{ role_name }}"
+
+- name: Lanzar el contenedor de Immich
+  ansible.builtin.shell: |
+    docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.traefik.yml up -d --remove-orphans
+  args:
+    chdir: "{{ ruta_instalacion }}/{{ role_name }}"

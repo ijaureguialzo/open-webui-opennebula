@@ -22,3 +22,4 @@
     - { role: docker, become: yes }
     - { role: extras, become: yes }
     - traefik
+    - open-webui
