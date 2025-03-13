@@ -85,3 +85,7 @@ output "master" {
 output "portainer_url" {
   value = local.ansible.install_portainer ? format("https://%s:9443",local.master.connection_ip) : ""
 }
+
+output "open_webui_url" {
+  value = format("https://%s.%s", local.cloudflare.subdomain, local.cloudflare.domain)
+}
