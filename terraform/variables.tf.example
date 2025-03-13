@@ -22,6 +22,12 @@ locals {
     connect_to_public_ip = false
     install_portainer    = false
   }
+  cloudflare = {
+    token   = "ECwU...bzxx"
+    zone_id = "5273...001b"
+    subdomain  = "open-webui"
+    domain    = "example.org"
+  }
 }
 
 variable "SSH_PUBLIC_KEY" {
